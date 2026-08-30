@@ -1,390 +1,53 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | Ilustradora</title>
-  <style>
-    :root {
-      --bg: #fcfcfc;
-      --card-bg: #ffffff;
-      --text: #1a1a1a;
-      --muted: #666666;
-      --border: #eeeeee;
-      --accent: #000000;
-      --radius: 6px;
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-
-    /* CABECERA & NAVEGACIÓN RESPONSIVE */
-    header { text-align: center; padding: 4rem 1.5rem 2rem; }
-    .logo { max-width: 200px; height: auto; cursor: pointer; transition: opacity 0.2s; }
-    .logo:hover { opacity: 0.7; }
-    
-    nav { 
-      position: sticky; top: 0; background: rgba(252, 252, 252, 0.95); 
-      backdrop-filter: blur(8px); z-index: 10; border-bottom: 1px solid var(--border);
-      padding: 1rem 0; text-align: center;
-    }
-    .nav-inner { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-    nav a { text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
-    nav a:hover, nav a.active { color: var(--accent); font-weight: 700; }
-
-    /* CONTENEDOR Y GRID */
-    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; min-height: 60vh; }
-    .section { display: none; animation: fadeIn 0.4s ease-out; }
-    .section.active { display: block; }
-    .section-text { text-align: center; max-width: 640px; margin: 0 auto 3rem; color: var(--muted); font-size: 1rem; }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-    .grid-item { overflow: hidden; border-radius: var(--radius); background: #eee; aspect-ratio: 1 / 1; cursor: pointer; }
-    .grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
-    .grid-item:hover img { transform: scale(1.04); }
-
-    /* FOOTER CON LOGOS (Email, Instagram, YouTube) */
-    footer { text-align: center; padding: 4rem 1.5rem 2rem; border-top: 1px solid var(--border); background: #fff; }
-    .social-links { display: flex; justify-content: center; align-items: center; gap: 1.8rem; margin-bottom: 1.5rem; }
-    .social-icon { color: var(--text); transition: transform 0.2s, color 0.2s; display: inline-flex; }
-    .social-icon:hover { transform: translateY(-2px); color: var(--muted); }
-    .social-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    footer p { font-size: 0.8rem; color: var(--muted); }
-
-    /* LIGHTBOX RESPONSIVE */
-    #lightbox { position: fixed; inset: 0; background: rgba(255,255,255,0.98); display: none; align-items: center; justify-content: center; z-index: 1000; }
-    #lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 4px; }
-    .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 2.5rem; cursor: pointer; color: var(--text); padding: 15px; }
-    #lb-prev { left: 10px; } #lb-next { right: 10px; }
-    #lb-close { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; background: none; border: none; cursor: pointer; }
-
-    /* MODAL LOGIN */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 2000; }
-    .modal-box { background: #fff; padding: 2.5rem; width: 90%; max-width: 380px; text-align: center; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
-    .modal-box input { width: 100%; padding: 12px; margin: 15px 0 20px; font-size: 1rem; border: 1px solid #ddd; border-radius: var(--radius); outline: none; }
-
-    /* PANEL DE CONTROL ESTÁTICO */
-    #admin-panel { position: fixed; inset: 0; background: #f4f5f7; display: none; overflow-y: auto; z-index: 3000; padding: 2rem 1rem; }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto 2rem; flex-wrap: wrap; gap: 1rem; }
-    .admin-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
-    .admin-card { background: #fff; padding: 2rem; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .admin-card h3 { margin-bottom: 1.5rem; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
-    .admin-group { margin-bottom: 1.2rem; }
-    .admin-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #333; }
-    .admin-group input, .admin-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; }
-    .section-editor { border: 1px solid #e5e5e5; padding: 1.2rem; margin-bottom: 1.2rem; border-radius: 8px; background: #fafafa; }
-    
-    .btn { background: var(--text); color: #fff; border: none; padding: 10px 18px; cursor: pointer; font-size: 0.85rem; font-weight: 600; border-radius: var(--radius); transition: background 0.2s; }
-    .btn:hover { background: #333; }
-    .btn-red { background: #dc3545; }
-    .btn-red:hover { background: #bd2130; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* AJUSTES MÓVIL */
-    @media (max-width: 600px) {
-      header { padding: 2.5rem 1rem 1.5rem; }
-      .nav-inner { gap: 0.8rem; }
-      nav a { font-size: 0.75rem; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem; }
-      .admin-header { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <img src="https://via.placeholder.com/250x80?text=LOGO" alt="Logo" class="logo" onclick="renderSection(siteData.sections[0].id)">
-</header>
-
-<nav><div class="nav-inner" id="main-nav"></div></nav>
-
-<main class="container" id="content-area"></main>
-
-<footer>
-  <div class="social-links" id="footer-links"></div>
-  <p id="footer-text"></p>
-</footer>
-
-<!-- Lightbox -->
-<div id="lightbox">
-  <button id="lb-close" onclick="closeLightbox()">✕</button>
-  <button class="lb-btn" id="lb-prev" onclick="navLightbox(-1)">‹</button>
-  <img id="lb-img" src="" alt="Ilustración ampliación">
-  <button class="lb-btn" id="lb-next" onclick="navLightbox(1)">›</button>
-</div>
-
-<!-- Modal Login Keylogger -->
-<div class="modal-overlay" id="login-modal">
-  <div class="modal-box">
-    <h3>Acceso Administración</h3>
-    <input type="password" id="login-pass" placeholder="Introduce la contraseña">
-    <div style="display: flex; gap: 10px; justify-content: center;">
-      <button class="btn" onclick="checkLogin()">Entrar</button>
-      <button class="btn btn-red" onclick="closeLogin()">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<!-- Panel de Control -->
-<div id="admin-panel">
-  <div class="admin-header">
-    <h2>Gestor del Portfolio</h2>
-    <div style="display: flex; gap: 10px;">
-      <button class="btn" onclick="generateJSON()">💾 Guardar y Descargar data.json</button>
-      <button class="btn btn-red" onclick="closeAdmin()">Cerrar</button>
-    </div>
-  </div>
-
-  <div class="admin-container">
-    <div class="admin-card">
-      <h3>1. Contacto & Redes Sociales</h3>
-      <div class="admin-group">
-        <label>Correo Electrónico:</label>
-        <input type="email" id="cfg-email" placeholder="ejemplo@correo.com">
-      </div>
-      <div class="admin-group">
-        <label>Instagram URL:</label>
-        <input type="url" id="cfg-instagram" placeholder="https://instagram.com/tu_usuario">
-      </div>
-      <div class="admin-group">
-        <label>YouTube URL:</label>
-        <input type="url" id="cfg-youtube" placeholder="https://youtube.com/@tu_canal">
-      </div>
-      <div class="admin-group">
-        <label>Texto del Footer:</label>
-        <input type="text" id="cfg-footer-text">
-      </div>
-      <div class="admin-group">
-        <label>Cambiar Contraseña de Acceso:</label>
-        <div style="display: flex; gap: 10px;">
-          <input type="password" id="cfg-pass" placeholder="Nueva contraseña">
-          <button class="btn" onclick="updatePasswordHash()">Actualizar Clave</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="admin-card">
-      <h3>2. Secciones e Imágenes</h3>
-      <div id="admin-sections"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-let siteData = null;
-let currentLightboxImages = [];
-let currentLightboxIndex = 0;
-let keyBuffer = "";
-
-// Inicialización
-window.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch('data.json');
-    if (!res.ok) throw new Error("JSON no cargado");
-    siteData = await res.json();
-  } catch (e) {
-    siteData = {
-      config: { 
-        email: "contacto@ilustradora.com", 
-        instagram: "https://instagram.com", 
-        youtube: "https://youtube.com",
-        footer_text: "© 2026 Ilustradora", 
-        admin_hash: "default" 
-      },
-      sections: [
-        { id: "portfolio", name: "Portfolio", order: 1, text: "Selección de ilustraciones principales.", images: ["img/portfolio/ejemplo1.jpg"] },
-        { id: "books", name: "Books", order: 2, text: "Proyectos editoriales y libros.", images: ["img/books/ejemplo1.jpg"] },
-        { id: "surface", name: "Surface Design", order: 3, text: "Diseño de estampados y patrones.", images: ["img/surface/ejemplo1.jpg"] },
-        { id: "about", name: "About me", order: 4, text: "Biografía y trayectoria profesional.", images: [] },
-        { id: "contact", name: "Contact", order: 5, text: "Información para encargos y proyectos.", images: [] }
+{
+  "config": {
+    "logo_url": "img/logo.png",
+    "email": "hola@aidialc.com",
+    "instagram": "https://instagram.com/",
+    "youtube": "https://youtube.com/",
+    "footer_text": "© 2026 Aidi Alc",
+    "admin_hash": "default"
+  },
+  "sections": [
+    {
+      "id": "portfolio",
+      "name": "Portfolio",
+      "order": 1,
+      "text": "Selección de trabajos ilustrados principales.",
+      "images": [
+        "img/portfolio/ejemplo1.jpg"
       ]
-    };
-  }
-  buildSite();
-  setupKeylogger();
-});
-
-function buildSite() {
-  siteData.sections.sort((a, b) => a.order - b.order);
-  
-  // Navegación
-  const nav = document.getElementById('main-nav');
-  nav.innerHTML = siteData.sections.map(s => `
-    <a href="javascript:void(0)" id="nav-btn-${s.id}" onclick="renderSection('${s.id}')">${s.name}</a>
-  `).join('');
-
-  // Secciones
-  const content = document.getElementById('content-area');
-  content.innerHTML = siteData.sections.map(s => `
-    <div id="sec-${s.id}" class="section">
-      <div class="section-text"><p>${s.text.replace(/\n/g, '<br>')}</p></div>
-      <div class="grid">
-        ${s.images.map((img, idx) => `
-          <div class="grid-item" onclick="openLightbox('${s.id}', ${idx})">
-            <img src="${img}" alt="Ilustración" loading="lazy">
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-
-  // Footer en orden exacto: Email, Instagram, YouTube
-  const footerLinks = document.getElementById('footer-links');
-  footerLinks.innerHTML = `
-    ${siteData.config.email ? `
-      <a href="mailto:${siteData.config.email}" class="social-icon" title="Correo Electrónico">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </a>` : ''}
-    ${siteData.config.instagram ? `
-      <a href="${siteData.config.instagram}" target="_blank" class="social-icon" title="Instagram">
-        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      </a>` : ''}
-    ${siteData.config.youtube ? `
-      <a href="${siteData.config.youtube}" target="_blank" class="social-icon" title="YouTube">
-        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-      </a>` : ''}
-  `;
-  document.getElementById('footer-text').innerText = siteData.config.footer_text;
-
-  if (siteData.sections.length > 0) renderSection(siteData.sections[0].id);
-}
-
-function renderSection(id) {
-  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
-  
-  const targetSec = document.getElementById(`sec-${id}`);
-  const targetNav = document.getElementById(`nav-btn-${id}`);
-  if (targetSec) targetSec.classList.add('active');
-  if (targetNav) targetNav.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Lightbox
-function openLightbox(sectionId, index) {
-  const section = siteData.sections.find(s => s.id === sectionId);
-  if (!section || section.images.length === 0) return;
-  currentLightboxImages = section.images;
-  currentLightboxIndex = index;
-  updateLightboxImage();
-  document.getElementById('lightbox').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function updateLightboxImage() {
-  document.getElementById('lb-img').src = currentLightboxImages[currentLightboxIndex];
-}
-
-function navLightbox(dir) {
-  currentLightboxIndex += dir;
-  if (currentLightboxIndex < 0) currentLightboxIndex = currentLightboxImages.length - 1;
-  if (currentLightboxIndex >= currentLightboxImages.length) currentLightboxIndex = 0;
-  updateLightboxImage();
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-// Criptografía SHA-256
-async function hashStr(s) {
-  const b = new TextEncoder().encode(s);
-  const h = await crypto.subtle.digest('SHA-256', b);
-  return Array.from(new Uint8Array(h)).map(x => x.toString(16).padStart(2,'0')).join('');
-}
-
-// Keylogger y Seguridad
-function setupKeylogger() {
-  window.addEventListener('keydown', e => {
-    keyBuffer += e.key.toLowerCase();
-    if (keyBuffer.length > 20) keyBuffer = keyBuffer.slice(-20);
-    if (keyBuffer.endsWith("nagusi90")) {
-      keyBuffer = "";
-      document.getElementById('login-pass').value = '';
-      document.getElementById('login-modal').style.display = 'flex';
-      setTimeout(() => document.getElementById('login-pass').focus(), 100);
+    },
+    {
+      "id": "books",
+      "name": "Books",
+      "order": 2,
+      "text": "Proyectos editoriales y libros ilustrados.",
+      "images": [
+        "img/books/ejemplo1.jpg"
+      ]
+    },
+    {
+      "id": "surface",
+      "name": "Surface Design",
+      "order": 3,
+      "text": "Diseño de estampados y aplicación en productos.",
+      "images": [
+        "img/surface/ejemplo1.jpg"
+      ]
+    },
+    {
+      "id": "about",
+      "name": "About me",
+      "order": 4,
+      "text": "Información sobre mi trayectoria profesional.",
+      "images": []
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "order": 5,
+      "text": "Contacto para presupuestos y encargos.",
+      "images": []
     }
-  });
-  document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
+  ]
 }
-
-function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
-
-async function checkLogin() {
-  const pass = document.getElementById('login-pass').value;
-  const hashedInput = await hashStr(pass);
-  const defaultHash = await hashStr("a1d1$$");
-  
-  if (hashedInput === siteData.config.admin_hash || (siteData.config.admin_hash === "default" && hashedInput === defaultHash)) {
-    closeLogin();
-    openAdmin();
-  } else {
-    alert("Contraseña incorrecta");
-  }
-}
-
-// Admin Panel
-function openAdmin() {
-  document.getElementById('cfg-email').value = siteData.config.email || '';
-  document.getElementById('cfg-instagram').value = siteData.config.instagram || '';
-  document.getElementById('cfg-youtube').value = siteData.config.youtube || '';
-  document.getElementById('cfg-footer-text').value = siteData.config.footer_text || '';
-  
-  const secContainer = document.getElementById('admin-sections');
-  secContainer.innerHTML = siteData.sections.map(s => `
-    <div class="section-editor" data-id="${s.id}">
-      <h4 style="margin-bottom:0.8rem; text-transform:uppercase; letter-spacing:1px;">${s.name}</h4>
-      <div class="admin-group"><label>Orden de visualización:</label><input type="number" class="e-order" value="${s.order}"></div>
-      <div class="admin-group"><label>Texto Introductorio:</label><textarea class="e-text" rows="2">${s.text}</textarea></div>
-      <div class="admin-group">
-        <label>Rutas de imágenes (Una por línea):</label>
-        <textarea class="e-imgs" rows="4" placeholder="img/${s.id}/imagen1.jpg&#10;img/${s.id}/imagen2.webp">${s.images.join('\n')}</textarea>
-      </div>
-    </div>
-  `).join('');
-  
-  document.getElementById('admin-panel').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeAdmin() { 
-  document.getElementById('admin-panel').style.display = 'none';
-  document.body.style.overflow = ''; 
-}
-
-async function updatePasswordHash() {
-  const newPass = document.getElementById('cfg-pass').value;
-  if (!newPass) return alert("Escribe una contraseña válida");
-  siteData.config.admin_hash = await hashStr(newPass);
-  alert("Nueva contraseña lista. Recuerda hacer clic en 'Guardar y Descargar data.json' para conservar el cambio.");
-  document.getElementById('cfg-pass').value = '';
-}
-
-function generateJSON() {
-  siteData.config.email = document.getElementById('cfg-email').value;
-  siteData.config.instagram = document.getElementById('cfg-instagram').value;
-  siteData.config.youtube = document.getElementById('cfg-youtube').value;
-  siteData.config.footer_text = document.getElementById('cfg-footer-text').value;
-
-  document.querySelectorAll('.section-editor').forEach(el => {
-    const id = el.getAttribute('data-id');
-    const sec = siteData.sections.find(s => s.id === id);
-    sec.order = parseInt(el.querySelector('.e-order').value) || 99;
-    sec.text = el.querySelector('.e-text').value;
-    sec.images = el.querySelector('.e-imgs').value.split('\n').map(u => u.trim()).filter(u => u);
-  });
-
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(siteData, null, 2));
-  const link = document.createElement("a");
-  link.setAttribute("href", dataStr);
-  link.setAttribute("download", "data.json");
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-}
-</script>
-</body>
-</html>
