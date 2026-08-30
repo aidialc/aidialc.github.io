@@ -74,15 +74,27 @@
     }
     .grid-item:hover img { transform: scale(1.03); }
 
-    /* SECCIÓN BOOKS & SURFACE DESIGN */
-    .books-grid, .surface-grid {
+    /* SECCIÓN BOOKS (AJUSTADO TAMAÑO MÁXIMO EN ESCRITORIO) */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+      gap: 2rem;
+      justify-content: center;
+    }
+    
+    /* SECCIÓN SURFACE DESIGN */
+    .surface-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 2rem;
     }
+
     .book-card, .surface-card {
       cursor: pointer;
       text-align: center;
+      max-width: 280px;
+      margin: 0 auto;
+      width: 100%;
     }
     .book-img-wrap, .surface-img-box {
       border-radius: var(--radius);
@@ -177,8 +189,8 @@
     .surface-item-editor, .book-item-editor { border: 1px dashed #ccc; padding: 1rem; margin-bottom: 0.8rem; border-radius: 6px; background: #fff; }
 
     /* TOOLBAR TEXTO ENRIQUECIDO */
-    .rte-toolbar { display: flex; gap: 4px; margin-bottom: 4px; background: #eee; padding: 4px; border-radius: 4px; }
-    .rte-toolbar button { background: #fff; border: 1px solid #ccc; padding: 3px 10px; cursor: pointer; border-radius: 3px; font-size: 0.8rem; font-weight: 600; }
+    .rte-toolbar { display: flex; gap: 4px; margin-bottom: 4px; background: #eee; padding: 4px; border-radius: 4px; flex-wrap: wrap; align-items: center; }
+    .rte-toolbar button { background: #fff; border: 1px solid #ccc; padding: 3px 8px; cursor: pointer; border-radius: 3px; font-size: 0.8rem; font-weight: 600; }
     .rte-toolbar button:hover { background: #e0e0e0; }
     .rte-content { min-height: 80px; border: 1px solid #ccc; border-radius: var(--radius); padding: 10px; background: #fff; outline: none; overflow-y: auto; font-size: 0.9rem; }
     .rte-content ul, .rte-content ol { margin-left: 1.5rem; }
@@ -307,34 +319,60 @@ window.addEventListener('DOMContentLoaded', async () => {
     siteData = await res.json();
   } catch (e) {
     siteData = {
-      config: { 
-        logo_url: "img/logo.png",
-        email: "hola@aidialc.com", 
-        instagram: "https://instagram.com", 
-        youtube: "https://youtube.com",
-        footer_text: "© 2026 Aidi Alc", 
-        admin_hash: "default" 
+      "config": {
+        "logo_url": "img/logo.jpg",
+        "email": "aidi.alcaide@gmail.com",
+        "instagram": "https://www.instagram.com/aidi.alc/",
+        "youtube": "https://www.youtube.com/@aidialc",
+        "footer_text": "© 2026 Aidi Alc",
+        "admin_hash": "default"
       },
-      sections: [
-        { id: "portfolio", name: "Portfolio", order: 1, text: "Selección de ilustraciones principales.", images: ["img/portfolio/ejemplo1.jpg"] },
-        { 
-          id: "books", name: "Books", order: 2, text: "Proyectos editoriales y libros ilustrados.", 
-          items: [
-            { caption: "El Libro del Bosque", image: "img/books/libro1.jpg" },
-            { caption: "Cuentos Nocturnos", image: "img/books/libro2.jpg" }
-          ] 
+      "sections": [
+        {
+          "id": "portfolio",
+          "name": "Portfolio",
+          "order": 1,
+          "text": "Selección de trabajos ilustrados principales.",
+          "images": []
         },
-        { 
-          id: "surface", name: "Surface Design", order: 3, text: "Diseño de estampados y patrones.", 
-          items: [
-            { caption: "Colección Floral", images: ["img/surface/floral1.jpg"] },
-            { caption: "Patrones Geométricos", images: ["img/surface/geo1.jpg"] },
-            { caption: "Ilustración Textil", images: ["img/surface/textil1.jpg"] },
-            { caption: "Papelería & Papel", images: ["img/surface/papel1.jpg"] }
-          ] 
+        {
+          "id": "books",
+          "name": "Books",
+          "order": 2,
+          "text": "Proyectos editoriales y libros ilustrados.",
+          "items": [
+            {
+              "image": "img/books/1_belate.webp",
+              "caption": "Belate eta etxe sorgindua. Published by Denon artean (2025)."
+            }
+          ]
         },
-        { id: "about", name: "About me", order: 4, text: "Biografía y trayectoria profesional.", images: ["img/about/perfil.jpg"] },
-        { id: "contact", name: "Contact", order: 5, text: "Información para encargos y proyectos.", images: [] }
+        {
+          "id": "surface",
+          "name": "Surface Design",
+          "order": 3,
+          "text": "Diseño de estampados, patrones y colecciones textiles.",
+          "items": [
+            { "caption": "Washi tape", "images": [] },
+            { "caption": "Sticker sheets", "images": ["img/surface/1surface.webp"] },
+            { "caption": "Textile", "images": ["img/surface/textil1.jpg"] },
+            { "caption": "Stickers", "images": ["img/surface/papel1.jpg"] }
+          ]
+        },
+        {
+          "id": "about",
+          "name": "About me",
+          "order": 4,
+          "text": "<div>Hi!&nbsp;</div><div>You can call me <b>Aidi</b>. I’m a children’s book illustrator and author residing in Araba (Basque country).&nbsp;&nbsp;</div><div><br></div><div>I studied education. While I was working with children I fell in love with picture books and everything related to children’s books.&nbsp; I decided to study illustration in 2021 (CMYK Bilbao) and since then I’ve been creating stories.</div><div><br></div><div>I always find inspiration in nature, seasons… but also in horror films and everyday life situations.&nbsp; Spooky stories are my favorite!</div><div><br></div><div>As an illustrator I have worked with clients such as Denon Artean.</div><div><br></div><div><u>Exhibitions</u></div><div><ul><li>Palestinarekin (2024), Haz laboratorio, Gasteiz</li><li>Erakusketa antiespezista (2025), Gasteiz</li><li>Drawn together (2026), The Cabin, Worcester&nbsp;</li></ul></div>",
+          "images": ["img/aboutme/aboutme.webp"]
+        },
+        {
+          "id": "contact",
+          "name": "Contact",
+          "order": 5,
+          "text": "Para consultas, proyectos o encargos, puedes escribir un correo o enviarme un mensaje a través de redes sociales.",
+          "images": []
+        }
       ]
     };
   }
@@ -579,10 +617,15 @@ function buildRTEHtml(id, initialContent) {
   return `
     <div class="rte-container">
       <div class="rte-toolbar">
-        <button type="button" onclick="formatRTE('bold')"><b>B</b></button>
-        <button type="button" onclick="formatRTE('italic')"><i>I</i></button>
-        <button type="button" onclick="formatRTE('underline')"><u>U</u></button>
-        <button type="button" onclick="formatRTE('insertUnorderedList')">• Lista</button>
+        <button type="button" title="Negrita" onclick="formatRTE('bold')"><b>B</b></button>
+        <button type="button" title="Cursiva" onclick="formatRTE('italic')"><i>I</i></button>
+        <button type="button" title="Subrayado" onclick="formatRTE('underline')"><u>U</u></button>
+        <button type="button" title="Lista" onclick="formatRTE('insertUnorderedList')">• Lista</button>
+        <span style="border-left: 1px solid #ccc; margin: 0 3px;"></span>
+        <button type="button" title="Alinear a la Izquierda" onclick="formatRTE('justifyLeft')">Izq</button>
+        <button type="button" title="Centrar" onclick="formatRTE('justifyCenter')">Centro</button>
+        <button type="button" title="Alinear a la Derecha" onclick="formatRTE('justifyRight')">Der</button>
+        <button type="button" title="Justificar" onclick="formatRTE('justifyFull')">Just</button>
       </div>
       <div id="${id}" class="rte-content" contenteditable="true">${initialContent || ''}</div>
     </div>
