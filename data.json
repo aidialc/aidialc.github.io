@@ -14,7 +14,7 @@
       "order": 1,
       "text": "Selección de trabajos ilustrados principales.",
       "images": [
-        "img/portfolio/ejemplo1.jpg"
+        "img/portfolio/1.jpg"
       ]
     },
     {
@@ -23,30 +23,57 @@
       "order": 2,
       "text": "Proyectos editoriales y libros ilustrados.",
       "images": [
-        "img/books/ejemplo1.jpg"
+        "img/books/1.jpg"
       ]
     },
     {
       "id": "surface",
       "name": "Surface Design",
       "order": 3,
-      "text": "Diseño de estampados y aplicación en productos.",
-      "images": [
-        "img/surface/ejemplo1.jpg"
+      "text": "Diseño de estampados, patrones y colecciones textiles.",
+      "items": [
+        {
+          "caption": "Colección Floral",
+          "images": [
+            "img/surface/floral1.jpg",
+            "img/surface/floral2.jpg"
+          ]
+        },
+        {
+          "caption": "Patrones Geométricos",
+          "images": [
+            "img/surface/geo1.jpg",
+            "img/surface/geo2.jpg"
+          ]
+        },
+        {
+          "caption": "Ilustración Textil",
+          "images": [
+            "img/surface/textil1.jpg"
+          ]
+        },
+        {
+          "caption": "Papelería & Papel de Regalo",
+          "images": [
+            "img/surface/papel1.jpg"
+          ]
+        }
       ]
     },
     {
       "id": "about",
       "name": "About me",
       "order": 4,
-      "text": "Información sobre mi trayectoria profesional.",
-      "images": []
+      "text": "Hola, soy Aidi Alc. Ilustradora y diseñadora enfocada en la creación de universos visuales, proyectos editoriales y patrones para superficies.",
+      "images": [
+        "img/about/perfil.jpg"
+      ]
     },
     {
       "id": "contact",
       "name": "Contact",
       "order": 5,
-      "text": "Para consultas, proyectos o encargos, puedes escribir un correo o enviarme un mensaje a través de las redes sociales.",
+      "text": "Para consultas, proyectos o encargos, puedes escribir un correo o enviarme un mensaje a través de redes sociales.",
       "images": []
     }
   ]

@@ -45,12 +45,13 @@
     nav a { text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
     nav a:hover, nav a.active { color: var(--accent); font-weight: 700; }
 
-    /* CONTENEDOR Y GRID */
+    /* CONTENEDOR PRINCIPAL */
     .container { max-width: 1200px; margin: 0 auto; padding: 2.5rem 1.5rem; min-height: 60vh; }
     .section { display: none; animation: fadeIn 0.4s ease-out; }
     .section.active { display: block; }
     .section-text { text-align: center; max-width: 640px; margin: 0 auto 2.5rem; color: var(--muted); font-size: 1rem; }
     
+    /* GRID MASONRY (Portfolio, Books) */
     .grid { 
       columns: 3 260px; 
       column-gap: 1.2rem; 
@@ -72,7 +73,64 @@
     }
     .grid-item:hover img { transform: scale(1.03); }
 
-    /* ICONOS CENTRADOS SECCIÓN CONTACTO */
+    /* SECCIÓN SURFACE DESIGN */
+    .surface-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+    .surface-card {
+      cursor: pointer;
+      text-align: center;
+    }
+    .surface-img-box {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #f0f0f0;
+      margin-bottom: 0.8rem;
+      aspect-ratio: 1 / 1;
+    }
+    .surface-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .surface-card:hover .surface-img-box img { transform: scale(1.04); }
+    .surface-caption {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.5px;
+    }
+
+    /* SECCIÓN ABOUT ME (Imagen a la izquierda) */
+    .about-layout {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .about-img-wrap {
+      flex: 0 0 300px;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .about-text-wrap {
+      flex: 1;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* CONTACTO */
     .contact-links {
       display: flex;
       justify-content: center;
@@ -89,25 +147,9 @@
       color: var(--text);
       transition: transform 0.2s, color 0.2s;
     }
-    .contact-card:hover {
-      transform: translateY(-4px);
-      color: var(--muted);
-    }
-    .contact-card svg {
-      width: 44px;
-      height: 44px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.8;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .contact-card span {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    .contact-card:hover { transform: translateY(-4px); color: var(--muted); }
+    .contact-card svg { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-card span { font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
     /* FOOTER */
     footer { text-align: center; padding: 3.5rem 1.5rem 2rem; border-top: 1px solid var(--border); background: #fff; }
@@ -129,7 +171,7 @@
     .modal-box { background: #fff; padding: 2.5rem; width: 90%; max-width: 380px; text-align: center; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
     .modal-box input { width: 100%; padding: 12px; margin: 15px 0 20px; font-size: 1rem; border: 1px solid #ddd; border-radius: var(--radius); outline: none; }
 
-    /* PANEL DE CONTROL ESTÁTICO */
+    /* PANEL DE CONTROL */
     #admin-panel { position: fixed; inset: 0; background: #f4f5f7; display: none; overflow-y: auto; z-index: 3000; padding: 2rem 1rem; }
     .admin-header { display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto 2rem; flex-wrap: wrap; gap: 1rem; }
     .admin-container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
@@ -139,7 +181,8 @@
     .admin-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #333; }
     .admin-group input, .admin-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; }
     .section-editor { border: 1px solid #e5e5e5; padding: 1.2rem; margin-bottom: 1.2rem; border-radius: 8px; background: #fafafa; }
-    
+    .surface-item-editor { border: 1px dashed #ccc; padding: 1rem; margin-bottom: 0.8rem; border-radius: 6px; background: #fff; }
+
     .btn { background: var(--text); color: #fff; border: none; padding: 10px 18px; cursor: pointer; font-size: 0.85rem; font-weight: 600; border-radius: var(--radius); transition: background 0.2s; }
     .btn:hover { background: #333; }
     .btn-red { background: #dc3545; }
@@ -147,9 +190,15 @@
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+    @media (max-width: 768px) {
+      .about-layout { flex-direction: column; text-align: center; gap: 1.5rem; }
+      .about-img-wrap { flex: 0 0 auto; max-width: 220px; }
+    }
+
     @media (max-width: 600px) {
       header { padding: 2rem 1rem 1rem; }
       .grid { columns: 2 130px; column-gap: 0.8rem; }
+      .surface-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
       .grid-item { margin-bottom: 0.8rem; }
       .contact-links { gap: 2rem; }
       .contact-card svg { width: 36px; height: 36px; }
@@ -174,7 +223,7 @@
   <p id="footer-text"></p>
 </footer>
 
-<!-- Lightbox -->
+<!-- Lightbox / Carrusel -->
 <div id="lightbox">
   <button id="lb-close" onclick="closeLightbox()">✕</button>
   <button class="lb-btn" id="lb-prev" onclick="navLightbox(-1)">‹</button>
@@ -269,8 +318,16 @@ window.addEventListener('DOMContentLoaded', async () => {
       sections: [
         { id: "portfolio", name: "Portfolio", order: 1, text: "Selección de ilustraciones principales.", images: ["img/portfolio/ejemplo1.jpg"] },
         { id: "books", name: "Books", order: 2, text: "Proyectos editoriales y libros.", images: ["img/books/ejemplo1.jpg"] },
-        { id: "surface", name: "Surface Design", order: 3, text: "Diseño de estampados y patrones.", images: ["img/surface/ejemplo1.jpg"] },
-        { id: "about", name: "About me", order: 4, text: "Biografía y trayectoria profesional.", images: [] },
+        { 
+          id: "surface", name: "Surface Design", order: 3, text: "Diseño de estampados y patrones.", 
+          items: [
+            { caption: "Colección Floral", images: ["img/surface/floral1.jpg"] },
+            { caption: "Patrones Geométricos", images: ["img/surface/geo1.jpg"] },
+            { caption: "Ilustración Textil", images: ["img/surface/textil1.jpg"] },
+            { caption: "Papelería & Papel", images: ["img/surface/papel1.jpg"] }
+          ] 
+        },
+        { id: "about", name: "About me", order: 4, text: "Biografía y trayectoria profesional.", images: ["img/about/perfil.jpg"] },
         { id: "contact", name: "Contact", order: 5, text: "Información para encargos y proyectos.", images: [] }
       ]
     };
@@ -279,10 +336,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   setupKeylogger();
 });
 
-// Bloqueo de Descarga / Clic Derecho / Arrastre
+// Bloqueo de Descarga
 function setupAntiDownload() {
   document.addEventListener('contextmenu', e => {
-    if (e.target.tagName === 'IMG' || e.target.closest('.grid-item') || e.target.closest('#lightbox')) {
+    if (e.target.tagName === 'IMG' || e.target.closest('.grid-item') || e.target.closest('#lightbox') || e.target.closest('.surface-card')) {
       e.preventDefault();
     }
   });
@@ -304,9 +361,40 @@ function buildSite() {
     <a href="javascript:void(0)" id="nav-btn-${s.id}" onclick="renderSection('${s.id}')">${s.name}</a>
   `).join('');
 
-  // Secciones
+  // Contenido de Secciones
   const content = document.getElementById('content-area');
   content.innerHTML = siteData.sections.map(s => {
+    if (s.id === 'about') {
+      const profileImg = (s.images && s.images[0]) ? s.images[0] : '';
+      return `
+        <div id="sec-about" class="section">
+          <div class="about-layout">
+            ${profileImg ? `<div class="about-img-wrap"><img src="${profileImg}" alt="Aidi Alc"></div>` : ''}
+            <div class="about-text-wrap"><p>${s.text.replace(/\n/g, '<br>')}</p></div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (s.id === 'surface') {
+      const items = s.items || [];
+      return `
+        <div id="sec-surface" class="section">
+          <div class="section-text"><p>${s.text.replace(/\n/g, '<br>')}</p></div>
+          <div class="surface-grid">
+            ${items.map((item, itemIdx) => `
+              <div class="surface-card" onclick="openSurfaceGallery(${itemIdx})">
+                <div class="surface-img-box">
+                  <img src="${(item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/400?text=Surface'}" alt="${item.caption}">
+                </div>
+                <div class="surface-caption">${item.caption}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     const isContact = s.id === 'contact';
     return `
       <div id="sec-${s.id}" class="section">
@@ -325,7 +413,7 @@ function buildSite() {
               </a>` : ''}
           </div>
         ` : ''}
-        ${s.images.length > 0 ? `
+        ${(s.images && s.images.length > 0 && !isContact) ? `
           <div class="grid">
             ${s.images.map((img, idx) => `
               <div class="grid-item" onclick="openLightbox('${s.id}', ${idx})">
@@ -338,7 +426,7 @@ function buildSite() {
     `;
   }).join('');
 
-  // Footer en orden exacto: Email, Instagram, YouTube
+  // Footer
   const footerLinks = document.getElementById('footer-links');
   footerLinks.innerHTML = `
     ${siteData.config.email ? `
@@ -370,12 +458,25 @@ function renderSection(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Lightbox
+// Lightbox & Carrusel
 function openLightbox(sectionId, index) {
   const section = siteData.sections.find(s => s.id === sectionId);
-  if (!section || section.images.length === 0) return;
+  if (!section || !section.images || section.images.length === 0) return;
   currentLightboxImages = section.images;
   currentLightboxIndex = index;
+  updateLightboxImage();
+  document.getElementById('lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function openSurfaceGallery(itemIndex) {
+  const surfaceSec = siteData.sections.find(s => s.id === 'surface');
+  if (!surfaceSec || !surfaceSec.items || !surfaceSec.items[itemIndex]) return;
+  const item = surfaceSec.items[itemIndex];
+  if (!item.images || item.images.length === 0) return;
+  
+  currentLightboxImages = item.images;
+  currentLightboxIndex = 0;
   updateLightboxImage();
   document.getElementById('lightbox').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -443,17 +544,53 @@ function openAdmin() {
   document.getElementById('cfg-footer-text').value = siteData.config.footer_text || '';
   
   const secContainer = document.getElementById('admin-sections');
-  secContainer.innerHTML = siteData.sections.map(s => `
-    <div class="section-editor" data-id="${s.id}">
-      <h4 style="margin-bottom:0.8rem; text-transform:uppercase; letter-spacing:1px;">${s.name}</h4>
-      <div class="admin-group"><label>Orden de visualización:</label><input type="number" class="e-order" value="${s.order}"></div>
-      <div class="admin-group"><label>Texto Introductorio:</label><textarea class="e-text" rows="2">${s.text}</textarea></div>
-      <div class="admin-group">
-        <label>Rutas de imágenes (Ejemplo: img/${s.id}/ilustracion1.jpg):</label>
-        <textarea class="e-imgs" rows="4" placeholder="img/${s.id}/dibujo1.jpg&#10;img/${s.id}/dibujo2.webp">${s.images.join('\n')}</textarea>
+  secContainer.innerHTML = siteData.sections.map(s => {
+    if (s.id === 'surface') {
+      const items = s.items || [
+        { caption: "", images: [] },
+        { caption: "", images: [] },
+        { caption: "", images: [] },
+        { caption: "", images: [] }
+      ];
+      return `
+        <div class="section-editor" data-id="${s.id}">
+          <h4 style="margin-bottom:0.8rem; text-transform:uppercase; letter-spacing:1px;">${s.name}</h4>
+          <div class="admin-group"><label>Orden de visualización:</label><input type="number" class="e-order" value="${s.order}"></div>
+          <div class="admin-group"><label>Texto Introductorio:</label><textarea class="e-text" rows="2">${s.text}</textarea></div>
+          <h5 style="margin: 1.2rem 0 0.6rem; font-size:0.9rem;">Categorías de Surface Design (4 Bloques):</h5>
+          <div class="surface-items-admin">
+            ${items.map((it, idx) => `
+              <div class="surface-item-editor">
+                <strong>Categoría ${idx + 1}</strong>
+                <div class="admin-group" style="margin-top:0.4rem;">
+                  <label>Pie de foto / Título:</label>
+                  <input type="text" class="s-caption" value="${it.caption || ''}" placeholder="Ej: Colección Floral">
+                </div>
+                <div class="admin-group">
+                  <label>Imágenes del carrusel (1 por línea, la 1ª es la portada):</label>
+                  <textarea class="s-imgs" rows="3" placeholder="img/surface/cat${idx+1}/1.jpg&#10;img/surface/cat${idx+1}/2.jpg">${(it.images || []).join('\n')}</textarea>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="section-editor" data-id="${s.id}">
+        <h4 style="margin-bottom:0.8rem; text-transform:uppercase; letter-spacing:1px;">${s.name}</h4>
+        <div class="admin-group"><label>Orden de visualización:</label><input type="number" class="e-order" value="${s.order}"></div>
+        <div class="admin-group"><label>Texto Introductorio / Biografía:</label><textarea class="e-text" rows="3">${s.text}</textarea></div>
+        ${s.id !== 'contact' ? `
+          <div class="admin-group">
+            <label>${s.id === 'about' ? 'Ruta de la Foto de Perfil:' : 'Rutas de imágenes (Una por línea):'}</label>
+            <textarea class="e-imgs" rows="${s.id === 'about' ? 1 : 4}" placeholder="img/${s.id}/1.jpg">${(s.images || []).join('\n')}</textarea>
+          </div>
+        ` : ''}
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
   
   document.getElementById('admin-panel').style.display = 'block';
   document.body.style.overflow = 'hidden';
@@ -484,7 +621,19 @@ function generateJSON() {
     const sec = siteData.sections.find(s => s.id === id);
     sec.order = parseInt(el.querySelector('.e-order').value) || 99;
     sec.text = el.querySelector('.e-text').value;
-    sec.images = el.querySelector('.e-imgs').value.split('\n').map(u => u.trim()).filter(u => u);
+
+    if (id === 'surface') {
+      const itemNodes = el.querySelectorAll('.surface-item-editor');
+      sec.items = [];
+      itemNodes.forEach(node => {
+        const caption = node.querySelector('.s-caption').value;
+        const imgs = node.querySelector('.s-imgs').value.split('\n').map(u => u.trim()).filter(u => u);
+        sec.items.push({ caption, images: imgs });
+      });
+    } else if (id !== 'contact') {
+      const imgsEl = el.querySelector('.e-imgs');
+      sec.images = imgsEl ? imgsEl.value.split('\n').map(u => u.trim()).filter(u => u) : [];
+    }
   });
 
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(siteData, null, 2));
