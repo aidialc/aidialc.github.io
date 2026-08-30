@@ -1,9 +1,9 @@
 {
   "config": {
-    "logo_url": "img/logo.png",
-    "email": "hola@aidialc.com",
-    "instagram": "https://instagram.com/",
-    "youtube": "https://youtube.com/",
+    "logo_url": "img/logo.jpg",
+    "email": "aidi.alcaide@gmail.com",
+    "instagram": "https://www.instagram.com/aidi.alc/",
+    "youtube": "https://www.youtube.com/@aidialc",
     "footer_text": "© 2026 Aidi Alc",
     "admin_hash": "default"
   },
@@ -13,23 +13,17 @@
       "name": "Portfolio",
       "order": 1,
       "text": "Selección de trabajos ilustrados principales.",
-      "images": [
-        "img/portfolio/1.jpg"
-      ]
+      "images": []
     },
     {
       "id": "books",
       "name": "Books",
       "order": 2,
-      "text": "Proyectos editoriales y <b>libros ilustrados</b>.",
+      "text": "Proyectos editoriales y libros ilustrados.",
       "items": [
         {
-          "caption": "El Libro del Bosque — Edición 2025",
-          "image": "img/books/libro1.jpg"
-        },
-        {
-          "caption": "Cuentos Nocturnos — Ilustración de Portada",
-          "image": "img/books/libro2.jpg"
+          "image": "img/books/1_belate.webp",
+          "caption": "Belate eta etxe sorgindua. Published by Denon artean (2025)."
         }
       ]
     },
@@ -40,27 +34,23 @@
       "text": "Diseño de estampados, patrones y colecciones textiles.",
       "items": [
         {
-          "caption": "Colección Floral",
+          "caption": "Washi tape",
+          "images": []
+        },
+        {
+          "caption": "Sticker sheets",
           "images": [
-            "img/surface/floral1.jpg",
-            "img/surface/floral2.jpg"
+            "img/surface/1surface.webp"
           ]
         },
         {
-          "caption": "Patrones Geométricos",
-          "images": [
-            "img/surface/geo1.jpg",
-            "img/surface/geo2.jpg"
-          ]
-        },
-        {
-          "caption": "Ilustración Textil",
+          "caption": "Textile",
           "images": [
             "img/surface/textil1.jpg"
           ]
         },
         {
-          "caption": "Papelería & Papel de Regalo",
+          "caption": "Stickers",
           "images": [
             "img/surface/papel1.jpg"
           ]
@@ -71,16 +61,16 @@
       "id": "about",
       "name": "About me",
       "order": 4,
-      "text": "Hola, soy <b>Aidi Alc</b>. Ilustradora y diseñadora enfocada en:<br><ul><li>Creación de universos visuales</li><li>Proyectos editoriales</li><li>Patrones para superficies</li></ul>",
+      "text": "<div>Hi!&nbsp;</div><div>You can call me <b>Aidi</b>. I’m a children’s book illustrator and author residing in Araba (Basque country).&nbsp;&nbsp;</div><div><br></div><div>I studied education. While I was working with children I fell in love with picture books and everything related to children’s books.&nbsp; I decided to study illustration in 2021 (CMYK Bilbao) and since then I’ve been creating stories.</div><div><br></div><div>I always find inspiration in nature, seasons… but also in horror films and everyday life situations.&nbsp; Spooky stories are my favorite!</div><div><br></div><div>As an illustrator I have worked with clients such as Denon Artean.</div><div><br></div><div><u>Exhibitions</u></div><div><ul><li>Palestinarekin (2024), Haz laboratorio, Gasteiz</li><li>Erakusketa antiespezista (2025), Gasteiz</li><li>Drawn together (2026), The Cabin, Worcester&nbsp;</li></ul></div>",
       "images": [
-        "img/about/perfil.jpg"
+        "img/aboutme/aboutme.webp"
       ]
     },
     {
       "id": "contact",
       "name": "Contact",
       "order": 5,
-      "text": "Para consultas, proyectos o encargos, puedes escribir un correo o enviarme un mensaje.",
+      "text": "Para consultas, proyectos o encargos, puedes escribir un correo o enviarme un mensaje a través de redes sociales.",
       "images": []
     }
   ]
