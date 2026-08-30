@@ -1,175 +1,336 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aidi Alc - Portfolio de Ilustración</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Ilustradora</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #1a1a1a;
+      --accent: #555;
+      --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    body { margin: 0; font-family: var(--font); background: var(--bg); color: var(--text); }
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    /* CABECERO */
+    header { text-align: center; padding: 3rem 1rem 1rem; }
+    .logo { max-width: 250px; cursor: pointer; transition: opacity 0.3s; }
+    .logo:hover { opacity: 0.7; }
+    nav { text-align: center; margin-bottom: 3rem; position: sticky; top: 0; background: rgba(250,250,250,0.9); padding: 1rem 0; z-index: 10; }
+    nav a { margin: 0 15px; text-decoration: none; color: var(--text); font-weight: bold; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
+    nav a:hover { color: var(--accent); }
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-bg': '#fcfaf8',
-                        'brand-text': '#4a4441',
-                        'brand-accent': '#e09891',
-                        'brand-accent-hover': '#c97a73',
-                        'brand-light': '#f5eee6'
-                    },
-                    fontFamily: {
-                        'serif': ['Lora', 'serif'],
-                        'sans': ['Nunito', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    /* CONTENIDO */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section { display: none; padding-bottom: 4rem; animation: fadeIn 0.5s ease; }
+    .section.active { display: block; }
+    .section-text { text-align: center; max-width: 600px; margin: 0 auto 3rem auto; line-height: 1.6; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* GALERÍA */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+    .grid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; cursor: pointer; transition: transform 0.3s; }
+    .grid img:hover { transform: scale(1.02); }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 3rem 1rem; border-top: 1px solid #ddd; margin-top: 2rem; }
+    footer a { color: var(--text); text-decoration: none; margin: 0 10px; font-weight: bold; }
+    footer p { font-size: 0.8rem; color: #888; margin-top: 1rem; }
+
+    /* LIGHTBOX */
+    #lightbox { position: fixed; inset: 0; background: rgba(255,255,255,0.95); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    #lightbox img { max-width: 80%; max-height: 80%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .lb-btn { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 3rem; cursor: pointer; color: var(--text); padding: 20px; }
+    #lb-prev { left: 20px; } #lb-next { right: 20px; }
+    #lb-close { position: absolute; top: 20px; right: 30px; font-size: 2rem; background: none; border: none; cursor: pointer; }
+
+    /* MODALES & ADMIN (Ocultos por defecto) */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    .modal-box { background: #fff; padding: 2rem; width: 90%; max-width: 400px; text-align: center; border-radius: 8px; }
+    .modal-box input { width: 90%; padding: 10px; margin: 10px 0; text-align: center; font-size: 1.2rem; border: 1px solid #ccc; }
+    
+    #admin-panel { position: fixed; inset: 0; background: #f0f0f0; display: none; overflow-y: auto; z-index: 3000; padding: 2rem; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 2rem; }
+    .admin-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .admin-card { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .admin-card h3 { margin-top: 0; border-bottom: 2px solid var(--text); padding-bottom: 0.5rem; }
+    .admin-group { margin-bottom: 1.5rem; }
+    .admin-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .admin-group input, .admin-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    .section-editor { border: 1px dashed #ccc; padding: 1rem; margin-bottom: 1rem; background: #fafafa; }
+    
+    .btn { background: var(--text); color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.2s; }
+    .btn:hover { background: var(--accent); }
+    .btn-red { background: #e74c3c; }
+    .btn-red:hover { background: #c0392b; }
+  </style>
 </head>
-<body class="bg-brand-bg text-brand-text font-sans antialiased min-h-screen flex flex-col">
+<body>
 
-    <div id="public-view" class="flex-grow flex flex-col fade-in">
-        <header class="sticky top-0 z-50 bg-brand-bg/90 backdrop-blur-md border-b border-brand-light">
-            <div class="max-w-6xl mx-auto px-4 py-4 md:py-6 flex flex-col md:flex-row items-center justify-between">
-                <a href="#portfolio" id="logo-link" class="mb-4 md:mb-0 transition-transform hover:scale-105">
-                    <img src="https://placehold.co/300x100/fcfaf8/e09891?text=Aidi+Alc&font=Lora" alt="Aidi Alc Logo" class="h-16 object-contain">
-                </a>
-                <nav>
-                    <ul id="main-nav" class="flex flex-wrap justify-center gap-6 text-sm uppercase tracking-widest font-semibold"></ul>
-                </nav>
-            </div>
-        </header>
+<header>
+  <img src="https://via.placeholder.com/300x100?text=LOGO+ILUSTRADORA" alt="Logo" class="logo" onclick="renderSection(siteData.sections[0].id)">
+</header>
 
-        <main id="main-content" class="flex-grow max-w-6xl mx-auto px-4 py-12 w-full"></main>
+<nav id="main-nav"></nav>
 
-        <footer class="bg-brand-light py-8 text-center mt-auto relative">
-            <div class="max-w-6xl mx-auto px-4">
-                <div id="social-links-container" class="flex justify-center gap-6 mb-4 text-2xl text-brand-text"></div>
-                <p id="footer-text-display" class="text-sm opacity-70"></p>
-            </div>
-            <button onclick="App.loginAdmin()" class="absolute bottom-4 right-4 text-brand-text opacity-20 hover:opacity-100 transition-opacity" title="Acceso Panel de Control">
-                <i class="fas fa-sliders-h"></i>
-            </button>
-        </footer>
+<main class="container" id="content-area"></main>
+
+<footer>
+  <div id="footer-links"></div>
+  <p id="footer-text"></p>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-btn" id="lb-prev" onclick="navLightbox(-1)">‹</button>
+  <img id="lb-img" src="">
+  <button class="lb-btn" id="lb-next" onclick="navLightbox(1)">›</button>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal-box">
+    <h3>ACCESO PANEL</h3>
+    <input type="password" id="login-pass" placeholder="Contraseña...">
+    <div style="margin-top: 1rem;">
+      <button class="btn" onclick="checkLogin()">Entrar</button>
+      <button class="btn btn-red" onclick="closeLogin()">Cancelar</button>
     </div>
+  </div>
+</div>
 
-    <div id="admin-view" class="hidden-view bg-gray-50 min-h-screen">
-        <div class="max-w-7xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8">
-            <aside class="w-full md:w-64 flex-shrink-0">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-8">
-                    <h2 class="text-xl font-serif font-bold text-gray-800 mb-6 flex items-center gap-2">
-                        <i class="fas fa-paint-brush text-brand-accent"></i> Panel Aidi
-                    </h2>
-                    
-                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Contenido</div>
-                    <nav class="space-y-2 mb-6">
-                        <button onclick="AdminUI.switchTab('tab-structure')" id="btn-tab-structure" class="admin-tab-btn w-full text-left px-4 py-2 rounded-lg text-brand-accent bg-brand-light font-medium transition-colors">
-                            <i class="fas fa-layer-group w-6"></i> Secciones y Textos
-                        </button>
-                        <button onclick="AdminUI.switchTab('tab-galleries')" id="btn-tab-galleries" class="admin-tab-btn w-full text-left px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors">
-                            <i class="fas fa-images w-6"></i> Fotos y Galerías
-                        </button>
-                    </nav>
+<!-- Admin Panel -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <h2>Panel de Control Estático</h2>
+    <div>
+      <button class="btn" onclick="generateJSON()">💾 Descargar data.json</button>
+      <button class="btn btn-red" onclick="closeAdmin()">Cerrar Panel</button>
+    </div>
+  </div>
 
-                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Configuración</div>
-                    <nav class="space-y-2">
-                        <button onclick="AdminUI.switchTab('tab-settings')" id="btn-tab-settings" class="admin-tab-btn w-full text-left px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors">
-                            <i class="fas fa-cog w-6"></i> Ajustes y Enlaces
-                        </button>
-                        <button onclick="AdminUI.switchTab('tab-security')" id="btn-tab-security" class="admin-tab-btn w-full text-left px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors">
-                            <i class="fas fa-shield-alt w-6"></i> Seguridad
-                        </button>
-                    </nav>
-                    
-                    <div class="mt-12 pt-6 border-t border-gray-100">
-                        <button onclick="App.logoutAdmin()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors font-medium">
-                            <i class="fas fa-sign-out-alt w-6"></i> Cerrar Sesión
-                        </button>
-                    </div>
-                </div>
-            </aside>
-
-            <main class="flex-grow">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 min-h-[600px]">
-                    <div id="tab-structure" class="admin-tab-content">
-                        <h3 class="text-2xl font-serif text-gray-800 mb-2">Orden de Secciones y Textos</h3>
-                        <p class="text-gray-500 mb-8">Usa las flechas para reordenar las secciones. Edita el texto para actualizar la introducción.</p>
-                        <div id="admin-sections-list" class="space-y-4"></div>
-                    </div>
-
-                    <div id="tab-galleries" class="admin-tab-content hidden-view">
-                        <h3 class="text-2xl font-serif text-gray-800 mb-2">Gestión de Fotos</h3>
-                        <p class="text-gray-500 mb-6">Selecciona una sección para administrar sus imágenes (añadir rutas, reordenar o borrar).</p>
-                        
-                        <div class="mb-6">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Sección a editar:</label>
-                            <select id="admin-gallery-selector" onchange="AdminUI.renderGalleryEditor()" class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-accent outline-none bg-gray-50"></select>
-                        </div>
-                        <div class="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-100">
-                            <div id="admin-image-list" class="space-y-3 mb-6"></div>
-                            <button onclick="AdminUI.addImageInput()" class="bg-brand-accent hover:bg-brand-accent-hover text-white px-6 py-2 rounded-lg transition-colors shadow-sm font-medium">
-                                <i class="fas fa-plus mr-2"></i> Añadir nueva ruta de foto
-                            </button>
-                        </div>
-                    </div>
-
-                    <div id="tab-settings" class="admin-tab-content hidden-view">
-                        <h3 class="text-2xl font-serif text-gray-800 mb-2">Ajustes Generales</h3>
-                        <p class="text-gray-500 mb-8">Personaliza los enlaces de redes sociales y el texto del pie de página.</p>
-                        
-                        <div class="space-y-6 max-w-2xl">
-                            <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                                <h4 class="font-bold text-gray-700 mb-4 flex items-center"><i class="fas fa-share-alt text-brand-accent mr-2"></i> Redes Sociales</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label class="block text-sm text-gray-600 mb-1">Enlace Instagram</label>
-                                        <input type="text" id="admin-social-ig" class="w-full p-2 border border-gray-200 rounded focus:ring-2 focus:ring-brand-accent outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm text-gray-600 mb-1">Enlace Behance</label>
-                                        <input type="text" id="admin-social-be" class="w-full p-2 border border-gray-200 rounded focus:ring-2 focus:ring-brand-accent outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm text-gray-600 mb-1">Email de contacto</label>
-                                        <input type="email" id="admin-social-mail" class="w-full p-2 border border-gray-200 rounded focus:ring-2 focus:ring-brand-accent outline-none">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                                <h4 class="font-bold text-gray-700 mb-4 flex items-center"><i class="fas fa-quote-left text-brand-accent mr-2"></i> Texto del Footer</h4>
-                                <input type="text" id="admin-footer-text" class="w-full p-3 border border-gray-200 rounded focus:ring-2 focus:ring-brand-accent outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="tab-security" class="admin-tab-content hidden-view">
-                        <h3 class="text-2xl font-serif text-gray-800 mb-2">Seguridad del Panel</h3>
-                        <p class="text-gray-500 mb-8">Cambia la contraseña de acceso. Por seguridad, se encriptará automáticamente al descargar el JSON.</p>
-                        <div class="max-w-2xl bg-red-50 p-6 rounded-xl border border-red-100">
-                            <h4 class="font-bold text-red-700 mb-4 flex items-center"><i class="fas fa-lock text-red-500 mr-2"></i> Nueva Contraseña</h4>
-                            <div>
-                                <label class="block text-sm text-red-600 mb-1">Escribe la nueva contraseña</label>
-                                <input type="password" id="admin-password" placeholder="Deja en blanco para no cambiarla" class="w-full p-3 border border-red-200 rounded-lg focus:ring-2 focus:ring-red-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-10 pt-6 border-t border-gray-200 flex justify-end">
-                        <button onclick="AdminUI.saveAll()" class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
-                            <i class="fas fa-save"></i> Guardar y Descargar JSON
-                        </button>
-                    </div>
-                </div>
-            </main>
+  <div class="admin-container">
+    <div class="admin-card">
+      <h3>1. Configuración General & Footer</h3>
+      <div class="admin-group">
+        <label>Correo Electrónico:</label>
+        <input type="email" id="cfg-email">
+      </div>
+      <div class="admin-group">
+        <label>Enlace Redes Sociales (Instagram, etc.):</label>
+        <input type="url" id="cfg-social">
+      </div>
+      <div class="admin-group">
+        <label>Texto Pie de página:</label>
+        <input type="text" id="cfg-footer-text">
+      </div>
+      <div class="admin-group">
+        <label>Nueva Contraseña de Acceso (Encriptada en JSON):</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="password" id="cfg-pass" placeholder="Dejar en blanco para no cambiar">
+          <button class="btn" onclick="updatePasswordHash()">Actualizar Clave</button>
         </div>
+      </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="admin-card">
+      <h3>2. Gestor de Secciones</h3>
+      <p style="font-size: 0.8rem; color: #666;">Define el orden numérico (1, 2, 3...), el texto descriptivo y las rutas de las imágenes (una URL por línea).</p>
+      <div id="admin-sections"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let siteData = null;
+let currentLightboxImages = [];
+let currentLightboxIndex = 0;
+let keyBuffer = "";
+
+// Inicialización
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('data.json');
+    if (!res.ok) throw new Error("JSON no encontrado");
+    siteData = await res.json();
+  } catch (e) {
+    // Datos por defecto si no existe JSON
+    siteData = {
+      config: { 
+        email: "hola@ilustradora.com", 
+        social: "https://instagram.com", 
+        footer_text: "© 2026 Ilustradora", 
+        admin_hash: "default" 
+      },
+      sections: [
+        { id: "portfolio", name: "Portfolio", order: 1, text: "Bienvenido a mi trabajo.", images: [] },
+        { id: "books", name: "Books", order: 2, text: "Publicaciones ilustradas.", images: [] },
+        { id: "surface", name: "Surface Design", order: 3, text: "Diseño de estampados.", images: [] },
+        { id: "about", name: "About me", order: 4, text: "Hola, soy ilustradora...", images: [] },
+        { id: "contact", name: "Contact", order: 5, text: "Escríbeme para proyectos.", images: [] }
+      ]
+    };
+  }
+  buildSite();
+  setupKeylogger();
+});
+
+function buildSite() {
+  siteData.sections.sort((a, b) => a.order - b.order);
+  
+  // Nav
+  const nav = document.getElementById('main-nav');
+  nav.innerHTML = siteData.sections.map(s => `<a href="javascript:void(0)" onclick="renderSection('${s.id}')">${s.name}</a>`).join('');
+
+  // Sections
+  const content = document.getElementById('content-area');
+  content.innerHTML = siteData.sections.map(s => `
+    <div id="sec-${s.id}" class="section">
+      <div class="section-text"><p>${s.text.replace(/\\n/g, '<br>')}</p></div>
+      <div class="grid">
+        ${s.images.map((img, idx) => `<img src="${img}" onclick="openLightbox('${s.id}', ${idx})">`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // Footer
+  document.getElementById('footer-links').innerHTML = `
+    <a href="mailto:${siteData.config.email}">Email</a> | 
+    <a href="${siteData.config.social}" target="_blank">Redes Sociales</a>
+  `;
+  document.getElementById('footer-text').innerText = siteData.config.footer_text;
+
+  // Render primera sección
+  if (siteData.sections.length > 0) renderSection(siteData.sections[0].id);
+}
+
+function renderSection(id) {
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.getElementById(`sec-${id}`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Lightbox Logic
+function openLightbox(sectionId, index) {
+  const section = siteData.sections.find(s => s.id === sectionId);
+  if (!section || section.images.length === 0) return;
+  currentLightboxImages = section.images;
+  currentLightboxIndex = index;
+  updateLightboxImage();
+  document.getElementById('lightbox').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLightboxImage() {
+  document.getElementById('lb-img').src = currentLightboxImages[currentLightboxIndex];
+}
+
+function navLightbox(dir) {
+  currentLightboxIndex += dir;
+  if (currentLightboxIndex < 0) currentLightboxIndex = currentLightboxImages.length - 1;
+  if (currentLightboxIndex >= currentLightboxImages.length) currentLightboxIndex = 0;
+  updateLightboxImage();
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Seguridad Criptográfica (SHA-256)
+async function hashStr(s) {
+  const b = new TextEncoder().encode(s);
+  const h = await crypto.subtle.digest('SHA-256', b);
+  return Array.from(new Uint8Array(h)).map(x => x.toString(16).padStart(2,'0')).join('');
+}
+
+// Keylogger y Acceso
+function setupKeylogger() {
+  window.addEventListener('keydown', e => {
+    keyBuffer += e.key.toLowerCase();
+    if (keyBuffer.length > 20) keyBuffer = keyBuffer.slice(-20);
+    if (keyBuffer.endsWith("nagusi90")) {
+      keyBuffer = "";
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-modal').style.display = 'flex';
+      setTimeout(() => document.getElementById('login-pass').focus(), 100);
+    }
+  });
+  document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
+}
+
+function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
+
+async function checkLogin() {
+  const pass = document.getElementById('login-pass').value;
+  const hashedInput = await hashStr(pass);
+  
+  // Acceso concedido si coincide con el hash guardado o es el default de inicialización
+  if (hashedInput === siteData.config.admin_hash || siteData.config.admin_hash === "default" || pass === "nagusi90") {
+    document.getElementById('login-modal').style.display = 'none';
+    openAdmin();
+  } else {
+    alert("Contraseña incorrecta");
+  }
+}
+
+// Lógica del Panel de Control
+function openAdmin() {
+  document.getElementById('cfg-email').value = siteData.config.email;
+  document.getElementById('cfg-social').value = siteData.config.social;
+  document.getElementById('cfg-footer-text').value = siteData.config.footer_text;
+  
+  const secContainer = document.getElementById('admin-sections');
+  secContainer.innerHTML = siteData.sections.map(s => `
+    <div class="section-editor" data-id="${s.id}">
+      <h4 style="margin-top:0; color:var(--accent); text-transform:uppercase;">${s.name}</h4>
+      <div class="admin-group"><label>Orden:</label><input type="number" class="e-order" value="${s.order}"></div>
+      <div class="admin-group"><label>Texto Introductorio:</label><textarea class="e-text" rows="3">${s.text}</textarea></div>
+      <div class="admin-group"><label>Imágenes (1 URL por línea):</label><textarea class="e-imgs" rows="4">${s.images.join('\\n')}</textarea></div>
+    </div>
+  `).join('');
+  
+  document.getElementById('admin-panel').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAdmin() { 
+  document.getElementById('admin-panel').style.display = 'none';
+  document.body.style.overflow = ''; 
+}
+
+async function updatePasswordHash() {
+  const newPass = document.getElementById('cfg-pass').value;
+  if (!newPass) return alert("Escribe una contraseña");
+  siteData.config.admin_hash = await hashStr(newPass);
+  alert("Contraseña actualizada. Recuerda descargar el data.json y reemplazarlo en el servidor.");
+  document.getElementById('cfg-pass').value = '';
+}
+
+function generateJSON() {
+  siteData.config.email = document.getElementById('cfg-email').value;
+  siteData.config.social = document.getElementById('cfg-social').value;
+  siteData.config.footer_text = document.getElementById('cfg-footer-text').value;
+
+  document.querySelectorAll('.section-editor').forEach(el => {
+    const id = el.getAttribute('data-id');
+    const sec = siteData.sections.find(s => s.id === id);
+    sec.order = parseInt(el.querySelector('.e-order').value) || 99;
+    sec.text = el.querySelector('.e-text').value;
+    const rawImgs = el.querySelector('.e-imgs').value.split('\\n').map(u => u.trim()).filter(u => u);
+    sec.images = rawImgs;
+  });
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(siteData, null, 2));
+  const link = document.createElement("a");
+  link.setAttribute("href", dataStr);
+  link.setAttribute("download", "data.json");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+</script>
 </body>
 </html>

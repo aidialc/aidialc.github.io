@@ -1,45 +1,45 @@
 {
-  "menu": ["Portfolio", "Surface design", "About me", "Books", "Contact"],
-  "footer": {
-    "copyright": "© 2026 Aidi Alc",
-    "links": [
-      { "texto": "DIRECCIÓN DE CORREO ELECTRÓNICO", "url": "mailto:aidialc@example.com" },
-      { "texto": "INSTAGRAM", "url": "#" },
-      { "texto": "YOUTUBE", "url": "#" }
-    ]
+  "config": {
+    "email": "hola@aidialc.com",
+    "social": "https://instagram.com/",
+    "footer_text": "© 2026 Illustrator Portfolio",
+    "admin_hash": "default"
   },
-  "sections": {
-    "portfolio": {
-      "tipo": "galeria",
-      "obras": [
-        { "imagen": "IMG_2051.png", "titulo": "Obra 1" },
-        { "imagen": "IMG_2052.png", "titulo": "Obra 2" },
-        { "imagen": "IMG_2054.png", "titulo": "Obra 3" },
-        { "imagen": "IMG_1880.jpeg", "titulo": "Obra 4" },
-        { "imagen": "IMG_1960.png", "titulo": "Obra 5" },
-        { "imagen": "IMG_1958.jpeg", "titulo": "Como una chispa" },
-        { "imagen": "IMG_1764.jpeg", "titulo": "Collage" },
-        { "imagen": "IMG_1711.jpeg", "titulo": "Obra 8" }
-      ]
+  "sections": [
+    {
+      "id": "portfolio",
+      "name": "Portfolio",
+      "order": 1,
+      "text": "Selección de trabajos principales.",
+      "images": []
     },
-    "surface_design": {
-      "tipo": "galeria",
-      "obras": [
-        { "imagen": "IMG_2077.jpeg", "titulo": "Diseño 1" },
-        { "imagen": "IMG_2070.png", "titulo": "Diseño 2" }
-      ]
+    {
+      "id": "books",
+      "name": "Books",
+      "order": 2,
+      "text": "Libros y publicaciones editoriales.",
+      "images": []
     },
-    "about_me": {
-      "tipo": "html",
-      "contenido": "<h2>About me</h2><p>¡Hola! Soy Aidi Alc. Ilustradora y diseñadora de superficies.</p>"
+    {
+      "id": "surface",
+      "name": "Surface Design",
+      "order": 3,
+      "text": "Patrones y diseño de estampados.",
+      "images": []
     },
-    "books": {
-      "tipo": "html",
-      "contenido": "<h2>Books</h2><p>Published with Denon artean 2025.</p><img src='IMG_1960.png' alt='Libro'>"
+    {
+      "id": "about",
+      "name": "About me",
+      "order": 4,
+      "text": "Información sobre mi trayectoria.",
+      "images": []
     },
-    "contact": {
-      "tipo": "html",
-      "contenido": "<h2>Contact</h2><p>Para consultas, envíame un email a mi correo electrónico.</p>"
+    {
+      "id": "contact",
+      "name": "Contact",
+      "order": 5,
+      "text": "Hablemos sobre tu próximo proyecto.",
+      "images": []
     }
-  }
+  ]
 }
