@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aidi Alc</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="#" id="home-link">Aidi Alc</a></h1>
+        <nav>
+            <ul id="menu-list">
+                <!-- Se inyecta dinámicamente -->
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <!-- El contenido de la sección activa se inyecta aquí -->
+    </main>
+
+    <footer>
+        <p id="footer-copyright"></p>
+        <div class="sociales" id="footer-links">
+            <!-- Se inyecta dinámicamente -->
+        </div>
+    </footer>
+
+    <!-- Panel de control (oculto) -->
+    <div id="panel-secreto" class="oculto">
+        <h2>Panel de Control</h2>
+        <p>Modifica el JSON con todos los textos, enlaces y obras:</p>
+        <textarea id="editor-json"></textarea>
+        <div class="panel-buttons">
+            <button id="btn-descargar">Descargar datos.json actualizado</button>
+            <button id="btn-cerrar">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
