@@ -1,8 +1,9 @@
 {
   "config": {
-    "email": "contacto@ilustradora.com",
-    "instagram": "https://instagram.com",
-    "youtube": "https://youtube.com",
+    "logo_url": "img/logo.png",
+    "email": "hola@aidialc.com",
+    "instagram": "https://instagram.com/",
+    "youtube": "https://youtube.com/",
     "footer_text": "© 2026 Aidi Alc",
     "admin_hash": "default"
   },
@@ -11,41 +12,41 @@
       "id": "portfolio",
       "name": "Portfolio",
       "order": 1,
-      "text": "",
-      "images": []
+      "text": "Selección de trabajos ilustrados principales.",
+      "images": [
+        "img/portfolio/ejemplo1.jpg"
+      ]
     },
     {
       "id": "books",
       "name": "Books",
       "order": 2,
-      "text": "Proyectos editoriales y libros.\n- BELATE ETA ETXE SORGINUDA. Published by Denon artean (2025). ",
+      "text": "Proyectos editoriales y libros ilustrados.",
       "images": [
-        "img/books/1_belate.webp"
+        "img/books/ejemplo1.jpg"
       ]
     },
     {
       "id": "surface",
       "name": "Surface Design",
       "order": 3,
-      "text": "Diseño de estampados y patrones.",
+      "text": "Diseño de estampados y aplicación en productos.",
       "images": [
-        "img/surface/1surface.webp"
+        "img/surface/ejemplo1.jpg"
       ]
     },
     {
       "id": "about",
       "name": "About me",
       "order": 4,
-      "text": "Hi! \nYou can call me Aidi. I’m a children’s book illustrator and author residing in Araba (Basque country).  \n\nI studied education, while I was working with children I fell in love with picture books and everything related to children’s books.  I decided to study illustration in 2021 (CMYK Bilbao) and since then I’ve been creating stories.\n\nI always find inspiration in nature, seasons… but also in horror films and everyday life situations.  Spooky stories are my favorite!\n\nAs an illustrator I have worked with clients such as Denon Artean.\n\nExhibitions\nPalestinarekin (2024), Haz laboratorio, Gazteiz\n\nErakusketa antiespezista (2025), Gasteiz\n\nDrawn together (2026), The Cabin, Worcester ",
-      "images": [
-        "img/about/aboutme.webp"
-      ]
+      "text": "Información sobre mi trayectoria profesional.",
+      "images": []
     },
     {
       "id": "contact",
       "name": "Contact",
       "order": 5,
-      "text": "Información para encargos y proyectos.\nMail: aidi.alcaide@gmail.com",
+      "text": "Contacto para presupuestos y encargos.",
       "images": []
     }
   ]
